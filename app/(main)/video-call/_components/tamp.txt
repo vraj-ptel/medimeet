@@ -1,0 +1,269 @@
+// @ts-nocheck
+"use client";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, BanknoteX, User } from "lucide-react";
+import { initialize } from "next/dist/server/lib/render-server";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { PropagateLoader } from "react-spinners";
+
+const VideoCall = ({
+  sessionId,
+  Token,
+}: {
+  sessionId: string;
+  Token: string;
+}) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); //loading stattte while initializing
+  const [scriptLoaded, setScriptLoaded] = useState(false); //track if vonage is loaded
+  const [isConnected, setIsConnected] = useState(false); //connection status to check video session
+  const [isVideoEnabled, setIsVideoEnabled] = useState(false); //video on /off
+  const [isAudioEnabled, setIsAudioEnabled] = useState(false); //audio on /off
+
+  //session ref
+  const sessionRef = useRef(null);
+  const publisherRef = useRef(null); //   store the publicer info like video is on or off or audio is on or off
+  const applicationId = process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID;
+  //   if there is no info like Token,sessionid and applicationId for vonage
+  if (!Token || !sessionId || !applicationId) {
+    toast.error("Failed to load video call script");
+    setIsLoading(false);
+    return (
+      <div className="container flex flex-col gap-2 items-center  mx-auto px-4 py-12 text-center">
+        <div className="text-emerald-400 text-2xl">
+          <BanknoteX className="h-12 w-12" />
+        </div>
+        <h1 className="text-3xl">Invalid Video Call</h1>
+        <p className="text-muted-foreground">
+          Missing Required Parameters For Video Call
+        </p>
+        <Button variant={"outline"} className="cursor-pointer">
+          <ArrowLeft className="animate-bounce" /> Back To Appointment
+        </Button>
+      </div>
+    );
+  }
+
+  //successfully loading of vonage video call
+  const handleScriptLoad = () => {
+    // setIsLoading(true)
+    setScriptLoaded(true);
+    //check if vonage ot available object in window
+
+    if (!window?.OT) {
+      toast.error("Failed to load video call script");
+      setIsLoading(false);
+      return;
+    }
+
+    // initialize  the video session once script is loaded
+    // initialize sesstion
+    initializeSession();
+  };
+
+  const initializeSession = () => {
+    if (!Token || !sessionId || !applicationId) {
+      toast.error("Failed to load video call script");
+      router.push("/appointments");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      sessionRef.current = window.OT.initSession(applicationId, sessionId);
+      //   when session created
+      sessionRef.current.on("streamCreated", (event) => {
+        sessionRef.current.subscribe(
+          event.stream,
+          "subscriber",
+          {
+            insertMode: "append",
+            width: "100%",
+            height: "100%",
+          },
+          (error) => {
+            toast.error("Error connecting to other participant's stream");
+             if (error) {
+              toast.error("Error connecting to other participant's stream");
+            }
+          }
+        );
+      });
+      //   when session connected
+      sessionRef.current.on("sessionConnected", () => {
+        setIsLoading(false), setIsConnected(true);
+        publisherRef.current = window.OT.initPublisher(
+          "publisher",
+          {
+            // all styles apllied to the div with publisher id
+            insertMode: "replace", //replace existing content inside a div whith id publisher
+            width: "100%",
+            height: "100%",
+            publishAudio: isAudioEnabled,
+            publishVideo: isVideoEnabled,
+          },
+          (error) => {
+            if (error) {
+              console.log("publisher error", error);
+              toast.error("error initialize your camera and microphone");
+            } else {
+              console.log(
+                "publishing initialized you should see your video now"
+              );
+            }
+          }
+        );
+      });
+      //   when session disconnected
+      sessionRef.current.on("sessionDisconnected", () => {
+        setIsConnected(false);
+      });
+      sessionRef?.current?.connect(Token, (error) => {
+        if (error) {
+          toast.error("Error connecting to the video session");
+        } else {
+          //publish our stream to the session after connecting
+          if (publisherRef.current) {
+            sessionRef.current.publish(publisherRef.current, (error) => {
+              if (error) {
+                console.log("error publishing stream", error);
+                toast.error("error publishing stream");
+              } else {
+                console.log("stream published successfully");
+              }
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.log("error initializing session", error);
+      toast.error("error initializing session");
+    }
+  };
+
+  //   to disable or enable video
+  const toggleVideo = () => {
+    if (publisherRef.current) {
+      publisherRef.current.publishVideo(!isVideoEnabled);
+      setIsVideoEnabled((prev) => !prev);
+    }
+  };
+  //   to disable or enable audio
+  const toggleAuddio = () => {
+    if (publisherRef.current) {
+      publisherRef.current.publishAudio(!isAudioEnabled);
+      setIsAudioEnabled((prev) => !prev);
+    }
+  };
+  //end video call
+  const endVideoCall = () => {
+    if (publisherRef.current) {
+      publisherRef.current.destroy();
+      publisherRef.current = null;
+    }
+    if (sessionRef.current) {
+      sessionRef.current.disconnect();
+      sessionRef.current = null;
+    }
+    router.push("/appointments");
+  };
+  // when user close the tab or return back to the appoinment then unmount all the session
+  useEffect(() => {
+    return () => {
+      if (publisherRef.current) {
+        publisherRef.current.destroy();
+        publisherRef.current = null;
+      }
+      if (sessionRef.current) {
+        sessionRef.current.disconnect();
+        sessionRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      <Script
+        src="https://unpkg.com/@vonage/client-sdk-video@latest/dist/js/opentok.js"
+        onLoad={handleScriptLoad}
+        onError={() => {
+          toast.error("Failed to load video call script");
+          setIsLoading(false);
+        }}
+      ></Script>
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Video Consultation
+          </h1>
+          <p className="text-muted-foreground">
+            {isConnected
+              ? "Connected"
+              : isLoading
+              ? "Connecting..."
+              : "Connection Failed"}
+          </p>
+          {isLoading && (
+            <div className="w-full flex items-center justify-center py-10">
+              <PropagateLoader color="#4ade80" size={10} />
+            </div>
+          )}
+          {/* video call component  */}
+          <div className="my-10">
+            {(!isLoading && scriptLoaded) && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 ">
+                  {/* left div  */}
+                  <div className="border border-emerald-900/20 rounded-lg overflow-hidden">
+                    <div className="bg-emerald-900/10 px-3 py-2 text-emerald-400 text-sm font-medium">
+                      You
+                    </div>
+                    <div
+                      id="publisher"
+                      className="w-full h-[300px] md:h-[400px] bg-muted/30"
+                    >
+                      {(!scriptLoaded||!isConnected) && (
+                        <div className="flex items-center justify-center h-full">
+                          <div className="bg-muted/20 rounded-full p-8">
+                            <User className="h-12 w-12 text-emerald-400" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {/* right div  */}
+                  <div className="border border-emerald-900/20 rounded-lg overflow-hidden">
+                    <div className="bg-emerald-900/10 px-3 py-2 text-emerald-400 text-sm font-medium">
+                      Other Participant
+                    </div>
+                    <div
+                      id="subscriber"
+                      className="w-full h-[300px] md:h-[400px] bg-muted/30"
+                    >
+                      {(!scriptLoaded || !isConnected)&& (
+                        <div className="flex items-center justify-center h-full">
+                          <div className="bg-muted/20 rounded-full p-8">
+                            <User className="h-12 w-12 text-emerald-400" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* video call button  */}
+                  <div className="flex w-full items-center justify-center">
+                    <Button onClick={toggleVideo}>enable</Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default VideoCall;

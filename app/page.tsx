@@ -1,103 +1,226 @@
+import Pricing from "@/components/Pricing";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { creditBenefits, features, testimonials } from "@/lib/data";
+import banner from "@/public/banner.png";
+import { ArrowRight, Check, Stethoscope } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+const page = async() => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="py-10 pb-0 lg:py-20 lg:pb-0 bg-background">
+      {/* landing page  */}
+      <section className="relative overflow-hidden py-32">
+        <div className="container mx-auto px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <Image
+                src={banner}
+                alt="banner"
+                width={500}
+                height={500}
+                priority
+                className="object-cover "
+              ></Image>
+            </div>
+            <div className="space-y-8">
+              <Badge
+                variant={"outline"}
+                className="bg-emerald-900/30 border-emerald-700/30 text-emerald-400 px-4 py-2 text-sm font-medium"
+              >
+                Healthcare Made Simple
+              </Badge>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold ">
+                Connect With Doctors <br />
+                <span className="gradient-title"> Anytime, Anywhere</span>
+              </h1>
+              <p className="text-muted-foreground text-lg md:text-xl max-w-md">
+                Book Appointment with Doctors and get expert advice on your
+                health issues.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  size={"lg"}
+                  className="bg-emerald-600 text-white hover:bg-emerald-700 "
+                >
+                  <Link href={"/onboarding"} className="flex flex-row">
+                    {" "}
+                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  size={"lg"}
+                  className="bg-emerald-700/30  hover:bg-emerald-700/50 text-white"
+                >
+                  <Link href={"/doctors"} className="flex flex-row">
+                    {" "}
+                    Find Doctors <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* about information  */}
+      <section className="py-20 bg-muted/30">
+        <div className="container  mx-auto px-10">
+          <div className="flex flex-col items-center space-y-4">
+            <h2 className="text-4xl lg:text font-bold capitalize">
+              how it works
+            </h2>
+            <p className="text-foreground/30">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut,
+              excepturi.{" "}
+            </p>
+          </div>
+          <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((item, index) => {
+              return (
+                <Card
+                  key={index}
+                  className="w-full max-w-sm bg-emerald-900/10 ease-in-out hover:translate-y-[-10px] transition-all  hover:bg-emerald-700/20"
+                >
+                  <CardHeader>
+                    <div>{item.icon}</div>
+                    <CardTitle className="pt-2">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-foreground/30">{item.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* pricing package  */}
+
+      <section className="py-20 bg-muted/30">
+        <div className="container  mx-auto px-10">
+          <div className="flex flex-col items-center space-y-4">
+            <Badge
+              variant={"outline"}
+              className="bg-emerald-900/30 border-emerald-700/30 text-emerald-400 px-4 py-2 text-sm font-medium"
+            >
+              Affordable Healthcare
+            </Badge>
+            <h2 className="text-4xl lg:text font-bold">
+              Consultation Packages
+            </h2>
+            <p className="text-foreground/30">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut,
+              excepturi.{" "}
+            </p>
+          </div>
+          <div>
+            {/* pricing table  */}
+            <Pricing/>
+            <div>
+              <Card className=" my-4   bg-emerald-900/10 ">
+                <CardHeader>
+                  <CardTitle className="text-xl font-semibold text-white flex items-center gap-2">
+                    <Stethoscope className="h-5 w-5 text-emerald-400"></Stethoscope>
+                    How Our Credit System Work
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul>
+                    {creditBenefits.map((item, index) => {
+                      return (
+                        <li key={index} className="flex items-center gap-2">
+                          <Check className="h-5 w-5 text-emerald-400"></Check>
+                          <p
+                            className="text-muted-foreground"
+                            dangerouslySetInnerHTML={{ __html: item }}
+                          ></p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* testemonial */}
+      <section className="py-20 bg-muted/30">
+        <div className="container  mx-auto px-10">
+          <div className="flex flex-col items-center space-y-4">
+            <Badge
+              variant={"outline"}
+              className="bg-emerald-900/30 border-emerald-700/30 text-emerald-400 px-4 py-2 text-sm font-medium"
+            >
+              Success Stories
+            </Badge>
+            <h2 className="text-4xl lg:text font-bold capitalize">
+              What our users say
+            </h2>
+            <p className="text-foreground/30">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut,
+              excepturi.{" "}
+            </p>
+          </div>
+          <div className="py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((item, index) => {
+              return (
+                <Card
+                  key={index}
+                  className="w-full max-w-sm bg-emerald-900/10 ease-in-out hover:translate-y-[-10px] transition-all  hover:bg-emerald-700/20"
+                >
+                  <CardHeader></CardHeader>
+                  <CardContent>
+                    <div className="flex flex-row gap-3 ">
+                      <div className="rounded-full w-12 h-12 bg-emerald-400 flex items-center justify-center">
+                        <span>{item.initials}</span>
+                      </div>
+                      <div>
+                        <h4>{item.name}</h4>
+                        <p className="text-muted-foreground">{item.role}</p>
+                      </div>
+                    </div>
+                    <p className="p-4  ">"<span className="text-foreground/60">{item.quote}</span>"</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+      {/* get started  */}
+      <section className="py-10 bg-muted/30">
+        <div className="container  mx-auto px-10">
+          <Card className="py-10 grid grid-cols-1 bg-gradient-to-b from-emerald-900/30 to-emerald-900/50 ">
+            
+            <CardContent>
+              <div className="flex flex-col gap-2">
+                <h2 className="text-3xl lg:text font-bold ">Ready To Take Control of your healthcare?</h2>
+                <p className="text-foreground/30">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo quisquam ducimus, cumque possimus consectetur sint cupiditate at. Id dicta nulla assumenda, et, eum, quod recusandae autem dolor dolores iure doloribus aliquam. Veritatis sequi unde alias, quidem repellendus, modi magnam eligendi dolores architecto esse assumenda. Tempore, iste. Molestiae eum non eius.</p>
+                <div className="flex flex-col md:flex-row gap-2">
+                  <Button asChild size={'lg'} className="bg-emerald-500 text-white hover:bg-emerald-700">
+                    <Link href={'/signup'}>Get Started</Link>
+                  </Button>
+                   <Button asChild size={'lg'} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                    <Link href={'/pricing'}>View Pricing</Link>
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </div>
   );
-}
+};
+
+export default page;

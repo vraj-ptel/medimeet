@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum UserRole {
+  UNASSIGNED
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+enum AppointmentStatus{
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+enum TransactionType{
+  CREDIT_PURCHASE
+  APPOINTMENT_DEDUCTION
+  ADMIN_ADJUSTMENT
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  clerkUserId String   @unique
+  name        String
+  imageUrl    String
+  role        UserRole @default(UNASSIGNED)
+
+  // patient specific
+  credit Int @default(2)
+
+  // doctor specific 
+  specialty          String?
+  experience         Int?
+  credentialUrl      String?
+  description        String?
+  verificationStatus VerificationStatus? @default(PENDING)
+
+  //relations
+  patientAppointments Appointment[]       @relation("PatientAppointments")
+  doctorAppointments  Appointment[]       @relation("DoctorAppointments")
+  availabilty         Availabiltiy[]
+  transactions        CreditTransaction[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+}
+
+enum SlotStatus {
+  AVAILABLE
+  BOOKED
+  BLOCKED
+}
+model Availabiltiy {
+  id        String   @id @default(uuid())
+  doctor    User?    @relation(fields: [doctorId], references: [id],onDelete: Cascade)
+  doctorId  String?
+  startTime DateTime
+  endTime   DateTime
+  status    SlotStatus @default(AVAILABLE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorId, startTime])
+}
+
+model Appointment {
+  id        String  @id @default(uuid())
+  patient   User?   @relation("PatientAppointments", fields: [patientId], references: [id])
+  patientId String?
+  doctor    User?   @relation("DoctorAppointments", fields: [doctorId], references: [id])
+  doctorId  String? 
+  startTime DateTime
+  endTime DateTime
+  status AppointmentStatus @default(SCHEDULED)
+  notes String? @db.Text
+  patientDescription String? @db.Text
+
+  //video session
+  videoSessionId String?
+  videoSessionToken String?
+  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startTime,status,doctorId,patientId])
+
+}
+
+model CreditTransaction {
+  id        String   @id @default(uuid())
+  User      User?    @relation(fields: [userId], references: [id],onDelete:Cascade)
+  userId    String?
+  amount    Int
+  type TransactionType 
+  packageId String?
+  // userId String
+  // user User @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
