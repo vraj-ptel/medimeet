@@ -31,7 +31,8 @@ const useFetch = <TArgs extends any[] , TResult = response>(
       if (res.success === false) {
         setError(res.error.message);
         toast.error(res.error.message || "Something went wrong");
-        throw new Error(res.error.message);
+        console.log("error",res.error)
+        // throw new Error(res.error.message);
       }
       return res;
     } catch (error) {
