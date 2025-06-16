@@ -67,8 +67,8 @@ const Earning = ({
 
   useEffect(() => {
     if (error) {
-      //@ts-ignore
-      toast.error(error.message);
+      
+      toast.error((error as unknown as Error).message);
       console.log("error in request payment", error);
     }
 

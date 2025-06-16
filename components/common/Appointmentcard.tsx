@@ -71,6 +71,7 @@ const Appointmentcard = ({
   // console.log("appointment", appointment);
   const otherParty =
     // @ts-expect-error
+    //
     userRole === "DOCTOR" ? appointment?.patient : appointment?.doctor;
   // console.log("otherParty", otherParty);
   const otherParyIcon =

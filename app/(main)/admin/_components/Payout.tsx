@@ -224,9 +224,8 @@ const ConfirmPayOutDialog = ({
   const {data,isLoading,error,fn}=useFetch(approvePayout)
   useEffect(()=>{
     if(error){
-      //@ts-ignore
-      toast.error(error.message)
-      console.log("error in request payment",error);
+      toast.error((error as unknown as Error).message)
+      console.log("error in request payment", error);
       handleOpen()
       handleParentDialog()
     }
