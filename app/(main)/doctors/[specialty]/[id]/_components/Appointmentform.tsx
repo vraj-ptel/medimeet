@@ -25,7 +25,7 @@ const Appointmentform = ({
   useEffect(()=>{
     if(error){
       toast.error((error as unknown as Error).message);
-      console.log("error in request payment", error);
+      // console.log("error in request payment", error);
     }
   },[data,error])
   const handleSubmit=async(startTime:string,endTime:string,description:string)=>{
