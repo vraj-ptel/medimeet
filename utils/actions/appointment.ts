@@ -1,3 +1,4 @@
+//@ts-ignore
 "use server";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
@@ -233,7 +234,7 @@ async function bookAppointment(formData: FormData) {
     revalidatePath("/appointments");
     return { success: true, data: { appointment } };
   } catch (error) {
-    console.log("error in booking appointment", error);
+    // console.log("error in booking appointment", error);
     return { success: false, error };
   }
 }
