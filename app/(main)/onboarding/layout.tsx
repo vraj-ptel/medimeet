@@ -1,7 +1,6 @@
 import { currentUser } from '@/utils/actions/onboarding'
 import { redirect } from 'next/navigation'
-import { title } from 'process'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 export const metaData={
     title:"onboarding",

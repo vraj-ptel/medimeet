@@ -9,7 +9,6 @@ import { getCurrentUser } from "@/utils/actions/checkuser";
 import { AlertCircle, ClipboardCheck, XCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import React from "react";
 export const metadata = {
   title: "Verification",
   description: "complete your profile to get started with medimeet",

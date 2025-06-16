@@ -21,10 +21,10 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
-import SlotPicker from "./SlotPicker";
-import Appointmentform from "./Appointmentform";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Appointmentform from "./Appointmentform";
+import SlotPicker from "./SlotPicker";
 
 const DoctProfile = ({
   doctor,

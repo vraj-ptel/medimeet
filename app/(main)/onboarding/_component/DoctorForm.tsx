@@ -1,19 +1,19 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import useFetch from "@/hooks/useFetch";
@@ -21,12 +21,12 @@ import { SPECIALTIES } from "@/lib/specialities";
 import { onboardUser } from "@/utils/actions/onboarding";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as zod from "zod";
 import { Step } from "../page";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 const doctorSchema = zod.object({
   speciality: zod

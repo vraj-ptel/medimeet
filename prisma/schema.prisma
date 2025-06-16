@@ -64,6 +64,8 @@ model User {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   
+
+  Payout Payout[]
 }
 
 enum SlotStatus {
@@ -120,4 +122,30 @@ model CreditTransaction {
   // user User @relation(fields: [userId],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum PayoutStatus{
+   PROCESSING
+  PROCESSED
+}
+model Payout{
+   id              String        @id @default(uuid())
+  doctorId        String
+  doctor          User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  amount          Float         // Total payout amount in USD
+  credits         Int           // Number of credits being paid out
+  platformFee     Float         // Platform fee deducted (2 USD per credit)
+  netAmount       Float         // Amount doctor receives (8 USD per credit)
+  paypalEmail     String        // Doctor's PayPal email for payout
+  status          PayoutStatus  @default(PROCESSING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  processedAt     DateTime?     // When admin marked it as processed
+  processedBy     String?       // Admin who processed it
+
+
+  createAt DateTime @default(now())
+  updatedAr DateTime @updatedAt
+
+  @@index([status,doctorId,createAt])
 }

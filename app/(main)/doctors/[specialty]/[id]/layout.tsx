@@ -1,8 +1,8 @@
 import PageHeader from "@/components/common/PageHeader";
 import { getDoctorById } from "@/utils/actions/appointment";
+import { BriefcaseMedical } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
-import { BriefcaseMedical } from "lucide-react";
 
 export const generateMetadata = async ({
   params,

@@ -1,4 +1,3 @@
-import React from 'react'
 import VideoCall from './_components/VideoCall'
 
 const page = async({searchParams}:{searchParams:Promise<{appointmentId:string,token:string,sessionId:string}>}) => {

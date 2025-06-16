@@ -1,20 +1,19 @@
 //@ts-nocheck
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import Script from "next/script";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Loader2,
-  Video,
-  VideoOff,
   Mic,
   MicOff,
   PhoneOff,
   User,
+  Video,
+  VideoOff,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function VideoCall({ sessionId, token }:{sessionId:string,token:string}) {

@@ -1,21 +1,19 @@
 "use client";
-import { User } from "@/lib/generated/prisma";
-import React, { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
-import useFetch from "@/hooks/useFetch";
-import { suspendDoctor, updateDoctorStatus } from "@/utils/actions/admin";
-import { Ban, Loader2, Search, User2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import useFetch from "@/hooks/useFetch";
+import { User } from "@/lib/generated/prisma";
+import { suspendDoctor } from "@/utils/actions/admin";
+import { Ban, Loader2, Search, User2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const VerifiedDoctors = ({ verifiedDoctors }: { verifiedDoctors: User[] }) => {

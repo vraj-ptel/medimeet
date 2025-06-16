@@ -2,7 +2,6 @@ import Appointmentcard from '@/components/common/Appointmentcard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Appointment } from '@/lib/generated/prisma'
 import { Calendar } from 'lucide-react'
-import React from 'react'
 
 const Appointmentlist = ({appointments}:{appointments:Appointment[]}) => {
   return (

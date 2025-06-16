@@ -15,7 +15,7 @@ import { Availabiltiy } from "@/lib/generated/prisma";
 import { setAvailabilitySlot } from "@/utils/actions/doctor";
 import { format } from "date-fns";
 import { Clock, Info, Plus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PropagateLoader } from "react-spinners";
 import { toast } from "sonner";

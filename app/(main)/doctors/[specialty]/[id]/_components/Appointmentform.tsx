@@ -6,7 +6,7 @@ import useFetch from "@/hooks/useFetch";
 import { bookAppointment, slot } from "@/utils/actions/appointment";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, Clock, CreditCard, Loader2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const Appointmentform = ({

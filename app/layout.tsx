@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/Header";
+import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
+import "./globals.css";
 
 const geistSans = Inter({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Inter({ subsets: ["latin"], variable: "--font-geist-mono" });

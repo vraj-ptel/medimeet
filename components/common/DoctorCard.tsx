@@ -1,10 +1,9 @@
-import { User, Star, Calendar } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 import { User as UserType } from "@/lib/generated/prisma";
-import Image from "next/image";
+import { Calendar, Star, User } from "lucide-react";
+import Link from "next/link";
 
 export function DoctorCard({ doctor }:{doctor:UserType}) {
   return (

@@ -1,14 +1,11 @@
-import Link from "next/link";
-import React from "react";
+import { getCurrentUser } from "@/utils/actions/checkuser";
+import { checkAndAllocateCredits } from "@/utils/actions/credits";
 import {
   SignedIn,
   SignedOut,
-  SignIn,
   SignInButton,
-  UserButton,
+  UserButton
 } from "@clerk/nextjs";
-import { Button } from "./ui/button";
-import { getCurrentUser } from "@/utils/actions/checkuser";
 import {
   CalendarPlusIcon,
   CreditCard,
@@ -16,8 +13,9 @@ import {
   Stethoscope,
   User2,
 } from "lucide-react";
-import { checkAndAllocateCredits } from "@/utils/actions/credits";
+import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 
 const Header = async () => {

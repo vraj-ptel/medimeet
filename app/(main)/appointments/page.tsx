@@ -1,11 +1,10 @@
 import Appointmentcard from "@/components/common/Appointmentcard";
 import PageHeader from "@/components/common/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentUser } from "@/utils/actions/checkuser";
 import { getPatientAppointment } from "@/utils/actions/patient";
 import { Calendar } from "lucide-react";
 import { redirect } from "next/navigation";
-import React from "react";
 
 const page = async () => {
   const currentUser = await getCurrentUser();

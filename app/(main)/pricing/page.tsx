@@ -1,7 +1,7 @@
 import Pricing from "@/components/Pricing";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BackpackIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const page = () => {

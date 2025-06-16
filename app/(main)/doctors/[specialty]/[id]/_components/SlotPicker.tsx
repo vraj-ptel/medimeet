@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { format } from "date-fns";
-import { Card, CardContent, CardDescription } from "@/components/ui/card";
-import { AvailableTimeSloat, slot } from "@/utils/actions/appointment";
-import { ChevronRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AvailableTimeSloat, slot } from "@/utils/actions/appointment";
+import { format } from "date-fns";
+import { ChevronRight, Clock } from "lucide-react";
 
 const SlotPicker = ({
   days,

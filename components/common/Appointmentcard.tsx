@@ -7,34 +7,32 @@ import {
   cancelAppointment,
   markAppointmentDone,
 } from "@/utils/actions/doctor";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { format } from "date-fns";
 import {
   Calendar,
   Check,
   Clock,
   Edit,
   Loader2,
-  Mail,
   Stethoscope,
   User,
   Video,
-  X,
+  X
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "../ui/card";
-import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
+import { Card, CardContent } from "../ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTrigger,
+  DialogHeader
 } from "../ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 
 const Appointmentcard = ({
@@ -74,7 +72,7 @@ const Appointmentcard = ({
   const otherParty =
     // @ts-expect-error
     userRole === "DOCTOR" ? appointment?.patient : appointment?.doctor;
-  console.log("otherParty", otherParty);
+  // console.log("otherParty", otherParty);
   const otherParyIcon =
     otherParty.role === "DOCTOR" ? <Stethoscope /> : <User />;
   const otherParyLabel = userRole === "DOCTOR" ? "Patient" : "Doctor";
@@ -100,6 +98,7 @@ const Appointmentcard = ({
     const now = new Date();
 
     const appointmentEndTime = new Date(appointment.endTime);
+    console.log("appointment mark", now, appointmentEndTime);
     return now >= appointmentEndTime;
   }
 
@@ -113,7 +112,7 @@ const Appointmentcard = ({
       )
     ) {
       const formData = new FormData();
-      formData.append("appointmentId", appointment.id);
+      formData.append("applicationId", appointment.id);
       await submitMarkCompleted(formData);
     }
   }

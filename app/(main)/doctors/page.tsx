@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { SPECIALTIES } from "@/lib/specialities";
 import Link from "next/link";
-import React from "react";
 
 const page = () => {
   return (

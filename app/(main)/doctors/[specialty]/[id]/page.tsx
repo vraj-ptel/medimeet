@@ -3,7 +3,6 @@ import {
   getDoctorById,
 } from "@/utils/actions/appointment";
 import { redirect } from "next/navigation";
-import React from "react";
 import DoctProfile from "./_components/DoctProfile";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
