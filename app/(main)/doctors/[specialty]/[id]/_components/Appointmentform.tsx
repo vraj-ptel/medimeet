@@ -22,6 +22,12 @@ const Appointmentform = ({
 }) => {
   const [description, setDescription] = useState("");
   const { fn, data, error, isLoading } = useFetch(bookAppointment);
+  useEffect(()=>{
+    if(error){
+      toast.error((error as unknown as Error).message);
+      console.log("error in request payment", error);
+    }
+  },[data,error])
   const handleSubmit=async(startTime:string,endTime:string,description:string)=>{
     if(!startTime || !endTime){
       toast.error("All fields are required");
