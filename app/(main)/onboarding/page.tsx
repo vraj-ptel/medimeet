@@ -16,6 +16,8 @@ import { toast } from "sonner";
 import DoctorForm from "./_component/DoctorForm";
 
 export type Step = "choose-role" | "doctor-form";
+// In your /onboarding/page.js
+export const dynamic = 'force-dynamic'; // Force dynamic rendering
 
 const page = () => {
   const router=useRouter()
