@@ -2,7 +2,7 @@ import { currentUser } from '@/utils/actions/onboarding'
 import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'
 
-export const metaData={
+export const metadata={
     title:"onboarding",
     description:"complete your profile to get started with medimeet"
 }
