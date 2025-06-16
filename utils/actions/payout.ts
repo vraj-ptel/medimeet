@@ -1,4 +1,5 @@
 "use server"
+import { Appointment } from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { endOfDay } from "date-fns";
@@ -36,7 +37,7 @@ export const getDoctorIncomeDetails = async (doctorId: string) => {
             status:"COMPLETED"
         }
     })
-    const thisMonthAppointMents=appointments.filter((appointment)=>new Date(appointment.createdAt)>=currentDate);
+    const thisMonthAppointMents=appointments.filter((appointment:Appointment)=>new Date(appointment.createdAt)>=currentDate);
 
     const displayTotalEaring=appointments.length*2*CREDIT_VALUE
 
@@ -102,7 +103,7 @@ export const generatePayout=async(formData:FormData)=>{
                 paypalEmail:payPalEmail as string
             }
         })
-        await prisma.$transaction(async(tx)=>{
+        await prisma.$transaction(async(tx:any)=>{
             await tx.creditTransaction.create({
                 data:{
                     amount:-credits,

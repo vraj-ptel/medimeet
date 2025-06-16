@@ -7,6 +7,7 @@ import { deductCredit } from "./credits";
 import { revalidatePath } from "next/cache";
 import { Auth } from "@vonage/auth";
 import { Vonage } from "@vonage/server-sdk";
+import { Appointment } from "@/lib/generated/prisma";
 
 const credential = new Auth({
   applicationId: process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID,
@@ -99,7 +100,7 @@ const getAvailableTimeSlot = async (doctorId: string) => {
           current = next;
           continue;
         }
-        const overlap = existingAppointment.some((appoint) => {
+        const overlap = existingAppointment.some((appoint:Appointment) => {
           const aStart = appoint.startTime;
           const aEnd = appoint.endTime;
           return (

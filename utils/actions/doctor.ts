@@ -59,13 +59,13 @@ export const setAvailabilitySlot = async (formData: FormData) => {
     });
     if (exisitingSlots.length > 0) {
       const slotsWithNoAppointments = exisitingSlots.filter(
-        (slot) => !slot.status.includes("BOOKED")
+        (slot:any) => !slot.status.includes("BOOKED")
       );
       if (slotsWithNoAppointments.length > 0) {
         await prisma.availabiltiy.deleteMany({
           where: {
             id: {
-              in: slotsWithNoAppointments.map((slot) => slot.id),
+              in: slotsWithNoAppointments.map((slot:any) => slot.id),
             },
           },
         });
@@ -195,7 +195,7 @@ export async function cancelAppointment(formData: FormData) {
     if (appointment.doctorId !== user?.id && appointment.patientId !== user?.id) {
       return { success: false, error: new Error("Unauthorized to cancel this appointment") };
     }
-    await prisma.$transaction(async(tx)=>{
+    await prisma.$transaction(async(tx:any)=>{
       await tx.appointment.update({
         where:{
           id:appointment.id

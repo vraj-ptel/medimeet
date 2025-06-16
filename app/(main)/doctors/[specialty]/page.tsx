@@ -20,7 +20,7 @@ const page = async ({ params }: { params: Promise<{ specialty: string }> }) => {
     <div className="space-y-5">
       <PageHeader title={specialty} icon={icon?.icon} />
       {doctors?.length! > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {doctors?.map((doc,index)=>{
+        {doctors?.map((doc:any,index:any)=>{
           return (<DoctorCard doctor={doc} key={doc.id}/>)
         })}
 
